@@ -1,0 +1,71 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    font-family: 'Stolzl Book', sans-serif;
+    margin: 3rem;
+}
+.content {
+    padding: 20px;
+    width: 45%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.inputContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    width: 100%;
+
+    &__title {
+        color: white;
+        font-size: 2vw;
+        width: 60%;
+        white-space: nowrap;
+        margin: 10px 0;
+    }
+
+    &__input {
+        height: 5vh;
+    }
+}
+
+.inputContainer:nth-of-type(2) {
+    margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+    .content {
+        width: 90%;
+
+        :global {
+            .ant-input-number-affix-wrapper, .ant-select {
+                width: 100% !important;
+            }
+        }
+    }
+    .inputContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: start;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+        margin-bottom: 20px;
+
+        &__title {
+            margin: 0;
+            text-align: center;
+        }
+    }
+}

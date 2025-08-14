@@ -1,0 +1,36 @@
+.button {
+    display: inline-block;
+    padding: 0.75em 2.5em;
+    font-size: 1.25vw;
+    // font-weight: bold;
+    color: #fff9dc;
+    background: linear-gradient(180deg, #ffeab6 6%, #b3822f 60%, #fffaa3 85%, #bf9942 99%);
+    border: 4px solid #804000;
+    border-radius: 999px;
+    box-shadow:
+        0 4px 18px 0 #0004 inset,
+        0 2px 0 #ffffcc inset,
+        0 0 0 4px #fff3  inset,
+        0 5px 10px 1px #80400055;
+    outline: none;
+    cursor: pointer;
+    transition: box-shadow .18s, transform .18s;
+    min-width: 140px;
+    width: max-content;
+    white-space: nowrap;
+    // text-shadow: 0 2px 8px #ac8424, 0 1px 0 #fff, 0 -1px 3px #ac8424aa;
+    box-sizing: border-box;
+    user-select: none;
+    font-family: 'Stolzl Book', sans-serif;
+}
+.button:active {
+    box-shadow:
+    0 2px 5px 0 #0007 inset,
+    0 2px 0 #ffffcc inset,
+    0 0 0 2px #fff4  inset,
+    0 2px 5px 1px #80400055;
+    transform: scale(0.98);
+}
+.button:active {
+    transform: scale(0.98) translateY(2px);
+}
