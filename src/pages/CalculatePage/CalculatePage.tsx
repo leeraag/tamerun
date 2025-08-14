@@ -34,10 +34,12 @@ const CalculatePage: FC<TCalculatePageProps> = ({}) => {
 
     const submitForm = () => {
         if (initialAmount && initialAmount > 0 && term) {
-            const profit = calculateProfit(initialAmount, 20, term);
-            console.log(profit);
+            const { total, yearlyData } = calculateProfit(initialAmount, 15, term);
             localStorage.setItem('initialAmount', initialAmount.toString());
-            localStorage.setItem('profit', profit.toString());
+            localStorage.setItem('profitData', JSON.stringify({
+                total: total,
+                yearlyData: yearlyData
+            }));
             navigateToResult();
         } else {
             return;
@@ -52,7 +54,6 @@ const CalculatePage: FC<TCalculatePageProps> = ({}) => {
                     <InputNumber
                         style={{ width: '40%' }}
                         formatter={formatter}
-                        // parser={parser}
                         step={0.01}
                         decimalSeparator=","
                         controls={false}

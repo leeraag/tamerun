@@ -24,6 +24,20 @@ function App() {
                 optionSelectedBg: "rgba(74, 73, 26, 0.19)",
                 activeOutlineColor: "transparent",
               },
+              Tabs: {
+                itemActiveColor: "#005229",
+                itemSelectedColor: "#005229",
+                itemHoverColor: "#ffffffff",
+                itemColor: "#e7fff1ff",
+                cardBg: "rgba(0, 0, 0, 0.27)",
+              },
+              Table: {
+                cellPaddingInline: 8,
+                cellPaddingBlock: 8,
+              },
+              Pagination: {
+                itemSize: 25,
+              }
             },
           }}
         >
