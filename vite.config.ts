@@ -10,7 +10,7 @@ export default defineConfig({
     base: './',
 	server: {
 	  host: true,
-	  port: 80,
+	  port: 443,
 	  allowedHosts: ['leeraag-tamerun-b58c.twc1.net', 'tamerun-invest.ru'],
 	},
 })
