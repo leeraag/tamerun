@@ -16,3 +16,14 @@ services:
             - '24678:24678'
         environment:
             - CHOKIDAR_USEPOLLING=true
+
+    backend:
+        container_name: tamerun_server
+        stdin_open: true
+        build:
+            context: ./backend
+            dockerfile: Dockerfile
+        volumes:
+            - './backend:/app'
+        ports:
+            - '5000:5000'
