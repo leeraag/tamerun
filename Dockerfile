@@ -2,10 +2,10 @@
 FROM node:22-alpine3.22
 
 # set working directory
-WORKDIR /app
+WORKDIR /opt/build
 
 # add `/app/node_modules/.bin` to $PATH
-ENV PATH=/app/node_modules/.bin:$PATH
+ENV PATH=/opt/build/node_modules/.bin:$PATH
 
 # install app dependencies
 COPY package.json ./
