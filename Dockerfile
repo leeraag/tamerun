@@ -16,7 +16,7 @@ RUN yarn install
 # add app
 COPY . ./
 
-#EXPOSE 5173
+EXPOSE 80
 
 # start app
 CMD ["yarn", "dev"]
