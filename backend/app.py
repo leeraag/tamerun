@@ -7,7 +7,7 @@ swagger = Swagger(app, template = {
     "info": {
         'title': 'API for tamerun-invest',
         'version': '1.0',
-        'description': 'API for calculating the forecast of real estate ''
+        'description': 'API for calculating the forecast of real estate '
                        'banking transactions'
     }
 })
