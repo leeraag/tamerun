@@ -16,6 +16,10 @@ services:
             - '24678:24678'
         environment:
             - CHOKIDAR_USEPOLLING=true
+        networks:
+            - tamerunnet
+        depends_on:
+            - backend
 
     backend:
         container_name: tamerun_server
@@ -27,3 +31,10 @@ services:
             - './backend:/app'
         ports:
             - '5000:5000'
+        networks:
+            - tamerunnet
+
+networks:
+    tamerunnet:
+        name: tamerun_network
+        driver: bridge
