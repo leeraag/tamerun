@@ -9,7 +9,7 @@ services:
             context: .
             dockerfile: Dockerfile
         ports:
-            - '443:5173'
+            - '9000:5173'
         networks:
             - tamerunnet
         depends_on:
