@@ -11,5 +11,6 @@ export default defineConfig({
 	server: {
 	  host: true,
 	  port: 80,
+	  allowedHosts: ['leeraag-tamerun-b58c.twc1.net', 'tamerun-invest.ru'],
 	},
 })
