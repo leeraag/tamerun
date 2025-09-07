@@ -24,6 +24,7 @@ def generate_payment_schedule(
         initial_payment_percentage,
         installment_period,
         monthly_payment_percentage,
+        initial_payment_date,
         intermediate_payments=None,
 ):
     """
@@ -61,7 +62,7 @@ def generate_payment_schedule(
     schedule = []
     remaining_loan = total_cost
     for month in range(1, installment_period + 1):
-        date_month = datetime.date.today() + relativedelta(months=(month - 1))
+        date_month = initial_payment_date + relativedelta(months=(month - 1))
         payment_amount = 0
         note = ''
 
