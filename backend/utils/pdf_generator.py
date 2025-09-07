@@ -1,6 +1,4 @@
-import datetime
-
-from dateutil.relativedelta import relativedelta
+from datetime import datetime, timedelta
 
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.utils import ImageReader
@@ -61,7 +59,8 @@ def generate_pdf(payment_schedule, property_price, installment_period):
 
     # --- Определяем тексты ---
     title_text = f"Расчет графика платежей за апартаменты Tamerun Grand Mirmax по рассрочке на {installment_period} месяцев*"
-    current_date = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
+    current_time_t =  datetime.now() + timedelta(hours=3)
+    current_date = current_time_t.strftime("%d.%m.%Y %H:%M:%S")
     date_text = f"Дата расчета: {current_date}"
     cost_text = f"Стоимость квартиры: {property_price:,.2f} руб."
     footnote_text = "*График платежей актуален в течение 30 дней с момента расчета и не является публичной офертой."
@@ -78,6 +77,11 @@ def generate_pdf(payment_schedule, property_price, installment_period):
     footer_text_style = ParagraphStyle(
         name='FooterTextStyle', fontName=font_book, fontSize=8, leading=10,
         alignment=TA_LEFT,
+    )
+    note_style = ParagraphStyle(
+        name='NoteStyle',
+        parent=styles['Normal'],
+        fontName=font_book,
     )
 
     # --- Общая функция для отрисовки шапки и сноски ---
@@ -195,12 +199,16 @@ def generate_pdf(payment_schedule, property_price, installment_period):
     # --- Таблица ---
     table_data = [["№", "Дата внесения платежа", "Сумма платежа", "Пояснение"]]
     total_paid = 0.0
+
     for payment in payment_schedule:
+        # Для столбца "Пояснение" создаем Paragraph
+        note_paragraph = Paragraph(payment.get('note', ''), note_style)
+
         table_data.append([
             f"{payment.get('month', 0)}",
             payment.get('date', ''),
             f"{payment.get('amount', 0.0):,.2f} руб.",
-            payment.get('note', '')
+            note_paragraph
         ])
         total_paid += payment.get('amount', 0.0)
     table_data.append([
