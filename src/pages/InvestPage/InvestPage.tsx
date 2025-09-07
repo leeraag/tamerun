@@ -1,35 +1,31 @@
 import {useState, type FC, type ReactNode} from 'react';
-import { Button } from '../../components';
+import { Button, MoneyInput } from '../../components';
 import { calculateProfit, getTermWord } from '../../utils';
-import { InputNumber, Select } from 'antd';
-import styles from './CalculatePage.module.scss';
+import { Select } from 'antd';
+import styles from './InvestPage.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { RoutePath } from '../../routes';
-import ruble from '../../assets/images/ruble.svg';
+import { HomeOutlined } from '@ant-design/icons';
+import { Button as AntdButton } from 'antd';
 
-type TCalculatePageProps = {
+type TInvestPageProps = {
     children?: ReactNode;
 };
 
-const CalculatePage: FC<TCalculatePageProps> = ({}) => {
+const InvestPage: FC<TInvestPageProps> = ({}) => {
     const termOptions = Array.from({ length: 100 }, (_, i) => ({
         value: i + 1,
         label: `${i + 1} ${getTermWord(i + 1)}`,
     }));
     const navigate = useNavigate();
 
-    const navigateToResult = () => navigate(RoutePath.result);
+    const navigateToResult = () => navigate(RoutePath.invest_result);
+    const navigateToHome = () => navigate(RoutePath.home)
     const [initialAmount, setInitialAmount] = useState<number | null>(null);
     const [term, setTerm] = useState(0);
 
     const handleTermChange = (value: number) => {
         setTerm(value);
-    };
-
-    const formatter = (value: number | undefined) => {
-        if (!value) return '';
-        
-        return `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
     };
 
     const submitForm = () => {
@@ -48,10 +44,14 @@ const CalculatePage: FC<TCalculatePageProps> = ({}) => {
 
     return (
         <section className={styles.container}>
+
             <div className={styles.content}>
+                <AntdButton type="text" size="large" onClick={navigateToHome}>
+                    <HomeOutlined style={{ fontSize: '30px', color: '#fff' }} />
+                </AntdButton>
                 <div className={styles.inputContainer}>
                     <p className={styles.inputContainer__title}>Стартовый капитал</p>
-                    <InputNumber
+                    {/* <InputNumber
                         style={{ width: '40%' }}
                         formatter={formatter}
                         step={0.01}
@@ -65,7 +65,8 @@ const CalculatePage: FC<TCalculatePageProps> = ({}) => {
                         value={initialAmount}
                         onChange={setInitialAmount}
                         className={styles.inputContainer__input}
-                    />
+                    /> */}
+                    <MoneyInput value={initialAmount} onChange={setInitialAmount} className={styles.inputContainer__input} />
                 </div>
                 <div className={styles.inputContainer}>
                     <p className={styles.inputContainer__title}>Срок инвестирования</p>
@@ -79,10 +80,9 @@ const CalculatePage: FC<TCalculatePageProps> = ({}) => {
                     />
                 </div>
                 <Button onClick={submitForm}>Рассчитать</Button>
-
             </div>
         </section>
     );
 };
 
-export {CalculatePage};
+export {InvestPage};

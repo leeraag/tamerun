@@ -1,22 +1,22 @@
 import {useEffect, useState, type FC, type ReactNode} from 'react';
 import { Button } from '../../components';
-import styles from './ResultPage.module.scss';
+import styles from './InvestResultPage.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { RoutePath } from '../../routes';
 import { Table, Tabs } from 'antd';
 import type { TYearlyData } from '../../utils/calculateProfit';
-import { columns } from './ResultPage.constants';
+import { columns } from './InvestResultPage.constants';
 
-type TResultPageProps = {
+type TInvestResultPageProps = {
     children?: ReactNode;
 };
 
-const ResultPage: FC<TResultPageProps> = ({}) => {
+const InvestResultPage: FC<TInvestResultPageProps> = ({}) => {
     const navigate = useNavigate();
 
     const finishCalculate = () => {
         localStorage.clear();
-        navigate(RoutePath.calculate);
+        navigate(RoutePath.invest);
     }
     const [totalProfit, setTotalProfit] = useState<number>(0);
     const [yearlyData, setYearlyData] = useState<TYearlyData[]>([]);
@@ -75,4 +75,4 @@ const ResultPage: FC<TResultPageProps> = ({}) => {
     );
 };
 
-export { ResultPage };
+export { InvestResultPage };

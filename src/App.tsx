@@ -37,6 +37,13 @@ function App() {
               },
               Pagination: {
                 itemSize: 25,
+              },
+              DatePicker: {
+                activeBorderColor: "#4A491A",
+                hoverBorderColor: "#4A491A",
+                activeShadow: "none",
+                cellRangeBorderColor: "#4A491A",
+                colorPrimary: "#005229",
               }
             },
           }}
