@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, render_template_string, request, Response
 from flasgger import Swagger, swag_from
+from flask_cors import CORS
 from utils.calculator import generate_payment_schedule
 from utils.pdf_generator import generate_pdf
 
@@ -13,6 +14,21 @@ swagger = Swagger(app, template = {
                        'в сфере недвижиомсти'
     }
 })
+
+local_frontend_origin = "http://localhost:9000"
+production_frontend_origin = "https://tamerun-invest.ru"
+
+CORS(app,
+     resources={
+         r"/api/*": {
+             "origins": [
+                 local_frontend_origin,
+                 production_frontend_origin,
+             ]
+         }
+     },
+     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+     allow_headers=["Content-Type", "Authorization"])
 
 """
 Convert to json result
