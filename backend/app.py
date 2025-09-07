@@ -253,7 +253,9 @@ def download_pdf():
     )
 
     # Выполняем генерацию PDF
-    pdf_buffer = generate_pdf(payment_schedule)
+    pdf_buffer = generate_pdf(payment_schedule[0],
+                              property_price,
+                              installment_period)
 
     # Создаем объект Response
     # content_type='application/pdf' указывает браузеру, что это PDF
