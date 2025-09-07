@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+    frontend:
+        container_name: tamerun
+        stdin_open: true
+        tty: true
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - '9000:443'
+        networks:
+            - tamerunnet
+        depends_on:
+            - backend
+
+    backend:
+        container_name: tamerun_server
+        stdin_open: true
+        build:
+            context: ./backend
+            dockerfile: Dockerfile
+        ports:
+            - '5000:5000'
+        networks:
+            - tamerunnet
+
+networks:
+    tamerunnet:
+        name: tamerun_network
+        driver: bridge
