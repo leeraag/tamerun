@@ -15,7 +15,7 @@ swagger = Swagger(app, template = {
     }
 })
 
-local_frontend_origin = "http://localhost:9000"
+local_frontend_origin = "http://localhost:443"
 production_frontend_origin = "https://tamerun-invest.ru"
 
 CORS(app,
