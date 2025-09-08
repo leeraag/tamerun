@@ -419,6 +419,13 @@ def download_pdf():
                                                    " 'Внесение ПВ', "
                                                    "'Ежемесячный платеж').",
                                     "example": "Ежемесячный платеж"
+                                },
+                                "onetime_payment": {
+                                    'type': 'boolean',
+                                    "description": "Флаг единоразового крупного"
+                                                   " платежа. False для "
+                                                   "ежемесячных",
+                                    "example": False
                                 }
                             }
                         }
