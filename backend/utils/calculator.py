@@ -65,6 +65,7 @@ def generate_payment_schedule(
         date_month = initial_payment_date + relativedelta(months=(month - 1))
         payment_amount = 0
         note = ''
+        onetime_payment = True
 
         if month == 1:
             payment_amount = initial_payment
@@ -84,6 +85,7 @@ def generate_payment_schedule(
         else:
             note = 'Ежемесячный платёж'
             payment_amount = monthly_payment
+            onetime_payment = False
 
         remaining_loan -= payment_amount
 
@@ -94,7 +96,8 @@ def generate_payment_schedule(
                 "amount": int(round(payment_amount))
                     if remaining_loan >= 0
                     else 0,
-                "note": note
+                "note": note,
+                "onetime_payment": onetime_payment,
             }
         )
 
