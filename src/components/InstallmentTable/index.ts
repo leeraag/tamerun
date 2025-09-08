@@ -1,0 +1,1 @@
+export { InstallmentTable } from './InstallmentTable';

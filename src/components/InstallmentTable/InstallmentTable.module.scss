@@ -1,0 +1,11 @@
+.totalCost {
+    margin: 0;
+    font-family: 'Stolzl Regular', sans-serif;
+}
+
+.downloadButton {
+    & span {
+        font-family: 'Stolzl Regular', sans-serif;
+        color: #005229;
+    }
+}
