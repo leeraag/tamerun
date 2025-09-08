@@ -102,3 +102,43 @@ def generate_payment_schedule(
         )
 
     return schedule, total_cost
+
+def generate_investment_forecast(
+        starting_capital,
+        years,
+        annual_interest_rate
+):
+    '''
+    Генерирует прогноз инвестиций в недвижимость
+
+    Args:
+        starting_capital (float): Стартовый капитал
+        years (integer): Срок инвестирования (в годах от 1 до 100)
+        annual_interest_rate (float): Годовой процент
+
+    Returns:
+        Кортеж: итоговая сумма, прибыль, годовая детализация
+    '''
+    # --- Расчет ---
+    yearly_details = []
+    current_amount = starting_capital
+    total_profit = 0.0
+
+    for year in range(1, years + 1):
+        start_amount_year = current_amount
+        # Расчет дохода за год
+        yearly_profit = start_amount_year * (annual_interest_rate / 100)
+        # Реинвестирование: конечная сумма за год = начальная + доход
+        end_amount_year = start_amount_year + yearly_profit
+
+        yearly_details.append({
+            'year': year,
+            'start_amount': round(start_amount_year, 2),
+            'yearly_profit': round(yearly_profit, 2),
+            'end_amount': round(end_amount_year, 2)
+        })
+
+        current_amount = end_amount_year # Обновляем сумму для следующего года
+        total_profit = current_amount - starting_capital # Обновляем общий доход
+
+    return current_amount, total_profit, yearly_details
