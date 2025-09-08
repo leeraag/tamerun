@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Flask, jsonify, render_template_string, request, Response
 from flasgger import Swagger, swag_from
 from flask_cors import CORS
@@ -117,7 +118,15 @@ def calculation(first, second):
                         },
                         "nullable": True,
                         "example": [[12, 15]]
-                    }
+                    },
+                    "initial_payment_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Начальная дата платежа в формате "
+                                       "ISO 8601 с временной зоной:"
+                                       " YYYY-MM-DDTHH:MM:SS±HH:MM",
+                        "example": "2025-11-25T00:00:00+03:00"
+                    },
                 },
                 "required": [
                     "property_price",
@@ -190,6 +199,15 @@ def download_pdf():
         monthly_payment_percentage = float(
             data.get('monthly_payment_percentage'))
         intermediate_payments = data.get('intermediate_payments') # Мб None
+        initial_payment_date_str = data.get('initial_payment_date')
+        initial_payment_date = datetime.now()
+        try:
+            # Парсим строку в datetime объект
+            initial_payment_date = datetime.fromisoformat(initial_payment_date_str)
+        except ValueError as e:
+            return jsonify({
+                    "error": f"Invalid date format: {e}"
+            }), 400
 
         # Простейшая валидация типов и значений
         if not all([
@@ -250,11 +268,14 @@ def download_pdf():
         initial_payment_percentage,
         installment_period,
         monthly_payment_percentage,
+        initial_payment_date,
         intermediate_payments,
     )
 
     # Выполняем генерацию PDF
-    pdf_buffer = generate_pdf(payment_schedule)
+    pdf_buffer = generate_pdf(payment_schedule[0],
+                              property_price,
+                              installment_period)
 
     # Создаем объект Response
     # content_type='application/pdf' указывает браузеру, что это PDF
@@ -341,7 +362,15 @@ def download_pdf():
                         },
                         "nullable": True,
                         "example": [[12, 15]]
-                    }
+                    },
+                    "initial_payment_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Начальная дата платежа в формате "
+                                       "ISO 8601 с временной зоной:"
+                                       " YYYY-MM-DDTHH:MM:SS±HH:MM",
+                        "example": "2025-11-25T00:00:00+03:00"
+                    },
                 },
                 "required": [
                     "property_price",
@@ -454,6 +483,15 @@ def calculate_payment_schedule():
         monthly_payment_percentage = float(
             data.get('monthly_payment_percentage'))
         intermediate_payments = data.get('intermediate_payments') # Мб None
+        initial_payment_date_str = data.get('initial_payment_date')
+        initial_payment_date = datetime.now()
+        try:
+            # Парсим строку в datetime объект
+            initial_payment_date = datetime.fromisoformat(initial_payment_date_str)
+        except ValueError as e:
+            return jsonify({
+                    "error": f"Invalid date format: {e}"
+            }), 400
 
         # Простейшая валидация типов и значений
         if not all([
@@ -514,6 +552,7 @@ def calculate_payment_schedule():
         initial_payment_percentage,
         installment_period,
         monthly_payment_percentage,
+        initial_payment_date,
         intermediate_payments,
     )
 
