@@ -1,7 +1,7 @@
 import type {AxiosPromise, AxiosRequestConfig} from 'axios';
 import axios from 'axios';
 
-const BASE_URL = '/api';
+const BASE_URL = 'http://localhost:5000/';
 
 enum Methods {
     GET = 'GET',

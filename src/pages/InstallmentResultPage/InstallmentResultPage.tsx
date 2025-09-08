@@ -1,54 +1,154 @@
-import {useEffect, type FC, type ReactNode} from 'react';
-import { Button } from '../../components';
-import styles from './InstallmentResultPage.module.scss';
+import {useEffect, useState, type FC, type ReactNode} from 'react';
+import type { AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { RoutePath } from '../../routes';
 import { Tabs } from 'antd';
+import { Button, InstallmentTable } from '../../components';
+import { downloadFile } from '../../utils/downloadFile';
+import { installmentApi } from './api/installment.api';
+import { 
+    COLUMNS,
+    INSTALLMENT_SETTINGS_6,
+    INSTALLMENT_SETTINGS_12,
+    INSTALLMENT_SETTINGS_18,
+    INSTALLMENT_SETTINGS_24,
+    INSTALLMENT_SETTINGS_36
+} from './InstallmentResultPage.constants';
+import type { TInstallmentSettings } from './InstallmentResultPage.types';
+import styles from './InstallmentResultPage.module.scss';
 
 type TInstallmentResultPageProps = {
     children?: ReactNode;
 };
 
 const InstallmentResultPage: FC<TInstallmentResultPageProps> = ({}) => {
+    const [paymentSchedule, setPaymentSchedule] = useState();
+    const [totalCost, setTotalCost] = useState<number | null>(null);
     const navigate = useNavigate();
 
     const finishCalculate = () => {
         localStorage.clear();
         navigate(RoutePath.installment);
-    }
+    };
+
+    const property_price = Number(localStorage.getItem('propertyPrice'));
+    const initial_payment_date = localStorage.getItem('initialPaymentDate');
+
+    const fetchInstallment = async (
+        property_price: number,
+        initial_payment_date: string | null,
+        installmentSettings: TInstallmentSettings
+    ) => {
+        try {
+            const response = await installmentApi.postInstallmentCalculate(
+                property_price,
+                initial_payment_date,
+                installmentSettings,
+            );
+            setPaymentSchedule(response.data.payment_schedule);
+            setTotalCost(response.data.total_cost);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const fetchFile = async (
+        property_price: number,
+        initial_payment_date: string | null,
+        installmentSettings: TInstallmentSettings
+    ) => {
+        try {
+            await installmentApi.postDownloadPdfSchedule(
+                property_price,
+                initial_payment_date,
+                installmentSettings,
+            )
+            .then((response: AxiosResponse) => {
+                downloadFile(response);
+            })
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     useEffect(() => {
-        console.log('запрос на полную оплату');
+        fetchInstallment(property_price, initial_payment_date, INSTALLMENT_SETTINGS_6);
     }, []);
+
     const handleTabClick = (key: string) => {
-        console.log('tab key', key);
+        switch (key) {
+            case '6':
+                fetchInstallment(property_price, initial_payment_date, INSTALLMENT_SETTINGS_6);
+                break;
+            case '12':
+                fetchInstallment(property_price, initial_payment_date, INSTALLMENT_SETTINGS_12);
+                break;
+            case '18':
+                fetchInstallment(property_price, initial_payment_date, INSTALLMENT_SETTINGS_18);
+                break;
+            case '24':
+                fetchInstallment(property_price, initial_payment_date, INSTALLMENT_SETTINGS_24);
+                break;
+            case '36':
+                fetchInstallment(property_price, initial_payment_date, INSTALLMENT_SETTINGS_36);
+        }
     };
 
     const tabsContent = [
         {
-            label: "Полная оплата",
-            key: '1',
-            children: "Таблица на полную оплату",
-        },
-        {
-            label: "3 месяца",
-            key: '3',
-            children: "Таблица на 3 месяца",
-        },
-        {
             label: "6 месяцев",
             key: '6',
-            children: "Таблица на 6 месяцев",
+            children:
+                <InstallmentTable 
+                    columns={COLUMNS}
+                    dataSource={paymentSchedule}
+                    totalCost={totalCost}
+                    downloadFile={() => fetchFile(property_price, initial_payment_date, INSTALLMENT_SETTINGS_6)} 
+                />
         },
         {
             label: "12 месяцев",
             key: '12',
-            children: "Таблица на 12 месяцев",
+            children: 
+                <InstallmentTable 
+                    columns={COLUMNS}
+                    dataSource={paymentSchedule}
+                    totalCost={totalCost}
+                    downloadFile={() => fetchFile(property_price, initial_payment_date, INSTALLMENT_SETTINGS_12)} 
+                />
+        },
+        {
+            label: "18 месяцев",
+            key: '18',
+            children: 
+                <InstallmentTable 
+                    columns={COLUMNS}
+                    dataSource={paymentSchedule}
+                    totalCost={totalCost}
+                    downloadFile={() => fetchFile(property_price, initial_payment_date, INSTALLMENT_SETTINGS_18)} 
+                />
         },
         {
             label: "24 месяца",
             key: '24',
-            children: "Таблица на 24 месяца",
+            children: 
+                <InstallmentTable 
+                    columns={COLUMNS}
+                    dataSource={paymentSchedule}
+                    totalCost={totalCost}
+                    downloadFile={() => fetchFile(property_price, initial_payment_date, INSTALLMENT_SETTINGS_24)} 
+                />
+        },
+        {
+            label: "36 месяцев",
+            key: '36',
+            children: 
+                <InstallmentTable 
+                    columns={COLUMNS}
+                    dataSource={paymentSchedule}
+                    totalCost={totalCost}
+                    downloadFile={() => fetchFile(property_price, initial_payment_date, INSTALLMENT_SETTINGS_36)} 
+                />
         },
     ];
     return (
