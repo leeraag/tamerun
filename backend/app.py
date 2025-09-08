@@ -28,7 +28,8 @@ CORS(app,
          }
      },
      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-     allow_headers=["Content-Type", "Authorization"])
+     allow_headers=["Content-Type", "Authorization"],
+     expose_headers=["Content-Disposition"])
 
 """
 Convert to json result
