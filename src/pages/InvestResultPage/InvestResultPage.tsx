@@ -89,6 +89,7 @@ const InvestResultPage: FC<TInvestResultPageProps> = ({}) => {
                         borderRadius: '0 0 8px 8px',
                         overflow: 'hidden',
                     }}
+                    rowKey={(record) => record.year}
                 />
         },
     ];

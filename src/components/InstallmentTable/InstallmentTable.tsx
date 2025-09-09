@@ -26,6 +26,7 @@ const InstallmentTable: FC<TInstallmentTableProps> = ({
                 borderRadius: '0 0 8px 8px',
                 overflow: 'hidden',
             }}
+            rowKey={(record) => record.month}
             title={() => <p style={{textAlign: "center", margin: '0', fontFamily: 'Stolzl Regular'}}>График платежей Дольщика</p>}
             footer={() => 
                 <>
