@@ -34,6 +34,7 @@ function App() {
               Table: {
                 cellPaddingInline: 8,
                 cellPaddingBlock: 8,
+                rowHoverBg: 'none',
               },
               Pagination: {
                 itemSize: 25,

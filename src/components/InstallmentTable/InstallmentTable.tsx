@@ -35,7 +35,6 @@ const InstallmentTable: FC<TInstallmentTableProps> = ({
                     <Button 
                         block
                         type="text"
-                        // ghost 
                         onClick={downloadFile}
                         icon={<DownloadOutlined style={{ fontSize: '20px' }}/>}
                         className={styles.downloadButton}
@@ -44,6 +43,7 @@ const InstallmentTable: FC<TInstallmentTableProps> = ({
                     </Button>
                 </>
             }
+            rowClassName={(record) => record.onetime_payment === true ? styles.markedRow : ''}
         />
     );
 };
