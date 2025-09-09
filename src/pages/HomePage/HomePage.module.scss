@@ -1,7 +1,9 @@
 .container {
     display: flex;
+    width: 50%;
+    align-self: self-end;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
     font-family: 'Stolzl Book', sans-serif;
     margin: 0 3rem;
 }
@@ -9,6 +11,12 @@
 .buttons {
     display: flex;
     flex-direction: column;
-    width: 30%;
     gap: 20px;
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 100%;
+        margin: 0;
+    }
 }

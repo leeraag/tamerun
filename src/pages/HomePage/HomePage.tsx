@@ -3,7 +3,6 @@ import { Button } from '../../components';
 import { useNavigate } from 'react-router-dom';
 import { RoutePath } from '../../routes';
 import styles from './HomePage.module.scss';
-import { Button as AntdButton } from 'antd';
 
 type THomePageProps = {
     children?: ReactNode;
@@ -18,12 +17,9 @@ const HomePage: FC<THomePageProps> = ({}) => {
     return (
         <section className={styles.container}>
             <div className={styles.buttons}>
-                {/* <AntdButton size="large" block ghost onClick={navigateToInvest}>Инвестиционный калькулятор</AntdButton>
-                <AntdButton size="large" block ghost onClick={navigateToInstallment}>Калькулятор рассрочек</AntdButton> */}
-                <Button onClick={navigateToInvest} fullWidth>Инвестиционный калькулятор</Button>
-                <Button onClick={navigateToInstallment} fullWidth>Калькулятор рассрочек</Button>
+                <Button onClick={navigateToInvest} fullWidth bold>Инвестиционный калькулятор</Button>
+                <Button onClick={navigateToInstallment} fullWidth bold>Калькулятор рассрочек</Button>
             </div>
-
         </section>
     );
 };

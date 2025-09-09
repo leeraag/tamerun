@@ -6,11 +6,17 @@ type TButtonProps = {
     children?: ReactNode;
     onClick?: () => void;
     fullWidth?: boolean;
+    bold?: boolean;
 };
 
-const Button: FC<TButtonProps> = ({children, onClick, fullWidth}) => {
+const Button: FC<TButtonProps> = ({children, onClick, fullWidth, bold}) => {
     return (
-        <button className={clsx(styles.button, fullWidth && styles.button_fullWidth)} onClick={onClick}>
+        <button 
+            className={
+                clsx(styles.button, fullWidth && styles.button_fullWidth, bold && styles.button_bold)
+            } 
+            onClick={onClick}
+        >
             {children}
         </button>
     );
