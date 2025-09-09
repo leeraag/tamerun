@@ -1,4 +1,6 @@
-export const columns = [
+export const INTEREST_RATE = 15;
+
+export const COLUMNS = [
     {
         title: 'Год',
         dataIndex: 'year',
@@ -7,22 +9,22 @@ export const columns = [
     },
     {
         title: 'Начальная сумма',
-        dataIndex: 'initialAmount',
-        key: 'initialAmount',
+        dataIndex: 'start_amount',
+        key: 'start_amount',
         render: (value: number) => `${value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} ₽`,
         width: 'auto',
     },
     {
         title: 'Доход',
-        dataIndex: 'income',
-        key: 'income',
+        dataIndex: 'yearly_profit',
+        key: 'yearly_profit',
         render: (value: number) => `${value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} ₽`,
         width: 'auto',
     },
     {
         title: 'Конечная сумма',
-        dataIndex: 'finalAmount',
-        key: 'finalAmount',
+        dataIndex: 'end_amount',
+        key: 'end_amount',
         render: (value: number) => `${value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} ₽`,
         width: 'auto',
     },

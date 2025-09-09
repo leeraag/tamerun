@@ -26,6 +26,7 @@ const MoneyInput: FC<TMoneyInputProps> = ({
             decimalSeparator=","
             controls={false}
             min={9000000}
+            max={1000000000}
             placeholder="Введите сумму"
             suffix={
                 <img src={ruble} />

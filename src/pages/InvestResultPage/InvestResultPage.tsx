@@ -1,15 +1,23 @@
 import {useEffect, useState, type FC, type ReactNode} from 'react';
 import { Button } from '../../components';
-import styles from './InvestResultPage.module.scss';
+
 import { useNavigate } from 'react-router-dom';
 import { RoutePath } from '../../routes';
 import { Table, Tabs } from 'antd';
-import type { TYearlyData } from '../../utils/calculateProfit';
-import { columns } from './InvestResultPage.constants';
+import { COLUMNS, INTEREST_RATE } from './InvestResultPage.constants';
+import { investApi } from './api/invest.api';
+import styles from './InvestResultPage.module.scss';
 
 type TInvestResultPageProps = {
     children?: ReactNode;
 };
+
+type TYearlyDetails = {
+  year: number;
+  start_amount: number;
+  yearly_profit: number;
+  end_amount: number;
+}
 
 const InvestResultPage: FC<TInvestResultPageProps> = ({}) => {
     const navigate = useNavigate();
@@ -18,20 +26,35 @@ const InvestResultPage: FC<TInvestResultPageProps> = ({}) => {
         localStorage.clear();
         navigate(RoutePath.invest);
     }
-    const [totalProfit, setTotalProfit] = useState<number>(0);
-    const [yearlyData, setYearlyData] = useState<TYearlyData[]>([]);
-    const initialAmount = localStorage.getItem('initialAmount');
-    useEffect(() => {
-        const savedData = localStorage.getItem('profitData');
-        if (savedData) {
-            const { total, yearlyData } = JSON.parse(savedData);
-            setTotalProfit(total);
-            setYearlyData(yearlyData);
-        }
-    }, []);
 
-    const profitShow = Number(totalProfit).toFixed(2).toString();
-    const income = (Number(totalProfit) - Number(initialAmount)).toFixed(2).toString();
+    const [totalAmount, setTotalAmount] = useState<number>(0);
+    const [profit, setProfit] = useState<number>(0);
+    const [yearlyDetails, setYearlyDetails] = useState<TYearlyDetails[]>([]);
+    const initialAmount = localStorage.getItem('initialAmount');
+    const term = localStorage.getItem('term')
+
+    const fetchInvest = async (
+        interestRate: number,
+        initialAmount: number,
+        term: number,
+    ) => {
+        try {
+            const response = await investApi.postInvestCalculate(
+                interestRate,
+                initialAmount,
+                term
+            );
+            setTotalAmount(response.data.total_amount);
+            setProfit(response.data.profit)
+            setYearlyDetails(response.data.yearly_details);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchInvest(INTEREST_RATE, Number(initialAmount), Number(term));
+    }, []);
 
     const tabsContent = [
         {
@@ -41,11 +64,15 @@ const InvestResultPage: FC<TInvestResultPageProps> = ({}) => {
                 <div className={styles.content}>
                     <div className={styles.field}>
                         <p className={styles.field__title}>Доход:</p>
-                        <p className={styles.field__value}>{income.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} ₽</p>
+                        <p className={styles.field__value}>
+                            {profit.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} ₽
+                        </p>
                     </div>
                     <div className={styles.field}>
                         <p className={styles.field__title}>Итоговая сумма:</p>
-                        <p className={styles.field__value}>{profitShow?.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} ₽</p>
+                        <p className={styles.field__value}>
+                            {totalAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} ₽
+                        </p>
                     </div>
                 </div>
         },
@@ -54,8 +81,8 @@ const InvestResultPage: FC<TInvestResultPageProps> = ({}) => {
             key: '2',
             children: 
                 <Table
-                    columns={columns}
-                    dataSource={yearlyData}
+                    columns={COLUMNS}
+                    dataSource={yearlyDetails}
                     pagination={false}
                     scroll={{ y: 150 }}
                     style={{
