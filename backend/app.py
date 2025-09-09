@@ -2,7 +2,7 @@ from datetime import datetime
 from flask import Flask, jsonify, render_template_string, request, Response
 from flasgger import Swagger, swag_from
 from flask_cors import CORS
-from utils.calculator import generate_payment_schedule
+from utils.calculator import generate_payment_schedule, generate_investment_forecast
 from utils.pdf_generator import generate_pdf
 
 app = Flask(__name__)
@@ -570,6 +570,139 @@ def calculate_payment_schedule():
     }
 
     return jsonify(response_data), 200
+
+# --- Константы для ограничений входных данных ---
+MIN_STARTING_CAPITAL = 9000000
+MAX_STARTING_CAPITAL = 1000000000
+MIN_INVESTMENT_YEARS = 1
+MAX_INVESTMENT_YEARS = 100
+DEFAULT_INTEREST_RATE = 15 # 5% годовых (пример)
+
+@app.route('/api/calculate_investment_forecast', methods=['POST'])
+@swag_from({
+    "tags": ["Расчет инвестиций"],
+    'parameters': [
+        {
+            'name': 'body',
+            'in': 'body',
+            'required': True,
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'starting_capital': {
+                        'type': 'number',
+                        'description': f'Стартовый капитал (от {MIN_STARTING_CAPITAL:,} до {MAX_STARTING_CAPITAL:,} руб.)',
+                        'minimum': MIN_STARTING_CAPITAL,
+                        'maximum': MAX_STARTING_CAPITAL,
+                        'example': 9000000.00,
+                    },
+                    'years': {
+                        'type': 'integer',
+                        'description': f'Срок инвестирования в годах (от {MIN_INVESTMENT_YEARS} до {MAX_INVESTMENT_YEARS} лет)',
+                        'minimum': MIN_INVESTMENT_YEARS,
+                        'maximum': MAX_INVESTMENT_YEARS,
+                        'example': 5,
+                    },
+                    'annual_interest_rate': {
+                        'type': 'number',
+                        'required': False,
+                        'description': 'Годовая процентная ставка (по умолчанию 10%)',
+                        'default': DEFAULT_INTEREST_RATE,
+                        'minimum': 0,
+                        'maximum': 100, # 100%
+                        'example': 15
+                    }
+                },
+                'required': ['starting_capital', 'years'] # Указываем обязательные поля тела запроса
+            }
+        }
+    ],
+    'responses': {
+        '200': {
+            'description': 'Прогноз доходности инвестиций',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'total_amount': {
+                        'type': 'number',
+                        'description': 'Итоговая сумма (стартовый капитал + доход)',
+                        'example': 18102214.69
+                    },
+                    'profit': {
+                        'type': 'number',
+                        'description': 'Доход за весь срок инвестирования',
+                        'example': 9102214.69
+                    },
+                    'yearly_details': {
+                        'type': 'array',
+                        'description': 'Детализация по годам',
+                        'items': {
+                            'type': 'object',
+                            'properties': {
+                                'year': {'type': 'integer', 'description': 'Номер года','example': 1},
+                                'start_amount': {'type': 'number', 'description': 'Сумма в начале года', 'example': 9000000.00},
+                                'yearly_profit': {'type': 'number', 'description': 'Доход за год (с учетом капитализации)', 'example': 1350000.00},
+                                'end_amount': {'type': 'number', 'description': 'Конечная сумма по результатам года', 'example': 10350000.00}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        '400': {
+            'description': 'Ошибка входных данных',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string', 'description': 'Описание ошибки'}
+                }
+            }
+        }
+    }
+})
+def calculate_investment_forecast():
+    """
+    Рассчитывает прогнозную доходность инвестиций с ежегодным реинвестированием.
+    """
+    try:
+        # Получаем JSON из тела запроса
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'Тело запроса должно быть в формате JSON'}), 400
+
+        starting_capital = float(data.get('starting_capital'))
+        years = int(data.get('years'))
+        # Используем get с default, если ключ отсутствует
+        annual_interest_rate = float(data.get('annual_interest_rate', DEFAULT_INTEREST_RATE))
+
+        # --- Валидация входных данных ---
+        if not (MIN_STARTING_CAPITAL <= starting_capital <= MAX_STARTING_CAPITAL):
+            return jsonify({'error': f'Стартовый капитал должен быть от {MIN_STARTING_CAPITAL:,} до {MAX_STARTING_CAPITAL:,} руб.'}), 400
+        if not (MIN_INVESTMENT_YEARS <= years <= MAX_INVESTMENT_YEARS):
+            return jsonify({'error': f'Срок инвестирования должен быть от {MIN_INVESTMENT_YEARS} до {MAX_INVESTMENT_YEARS} лет.'}), 400
+        if not (0 <= annual_interest_rate <= 100):
+            return jsonify({'error': 'Годовая процентная ставка должна быть от 0 до 100%).'}), 400
+
+        # Выполняем расчет прогноза инвестирования
+        investment_forecast = generate_investment_forecast(
+            starting_capital,
+            years,
+            annual_interest_rate,
+        )
+
+
+        return jsonify({
+            'total_amount': round(investment_forecast[0], 2),
+            'profit': round(investment_forecast[1], 2),
+            'yearly_details': investment_forecast[2]
+        })
+
+    except ValueError:
+        return jsonify({'error': 'Некорректный формат числовых данных. Пожалуйста, введите числа.'}), 400
+    except Exception as e:
+        # Логирование ошибки для отладки
+        app.logger.error(f"Произошла ошибка при расчете доходности: {e}", exc_info=True)
+        return jsonify({'error': 'Внутренняя ошибка сервера при расчете доходности.'}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
