@@ -69,7 +69,7 @@ def generate_payment_schedule(
 
         if month == 1:
             payment_amount = initial_payment
-            note = f'Внесение ПВ {initial_payment_percentage}%'
+            note = f'Внесение ПВ {int(round(initial_payment_percentage))}%'
         elif any(payment and payment[0] == month
             for payment in intermediate_payments) :
             intermediate_payment_percentage = next(
@@ -77,7 +77,7 @@ def generate_payment_schedule(
                  payment and payment[0] == month),
                 None  # Значение по умолчанию, если ничего не найдено
             )
-            note = f'Внесение {intermediate_payment_percentage}%'
+            note = f'Внесение {int(round(intermediate_payment_percentage))}%'
             payment_amount = total_cost * (intermediate_payment_percentage/100)
         elif month == installment_period:
             note = "Закрывающий платеж собственными средствами или переход на ипотеку"
