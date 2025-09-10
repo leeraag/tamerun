@@ -1,10 +1,10 @@
 import {useState, type FC, type ReactNode} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RoutePath } from '../../routes';
-import { Button, MoneyInput } from '../../components';
+import { Button, LinkButton, MoneyInput } from '../../components';
 import { getTermWord } from '../../utils';
-import { Button as AntdButton, Select } from 'antd';
-import { HomeOutlined } from '@ant-design/icons'
+import { Select } from 'antd';
+import { LeftOutlined } from '@ant-design/icons'
 import styles from './InvestPage.module.scss';
 
 type TInvestPageProps = {
@@ -39,11 +39,8 @@ const InvestPage: FC<TInvestPageProps> = ({}) => {
 
     return (
         <section className={styles.container}>
-
             <div className={styles.content}>
-                <AntdButton type="text" size="large" onClick={navigateToHome}>
-                    <HomeOutlined style={{ fontSize: '30px', color: '#fff' }} />
-                </AntdButton>
+                <LinkButton children={"На главную"} onClick={navigateToHome} icon={<LeftOutlined />} />
                 <div className={styles.inputContainer}>
                     <p className={styles.inputContainer__title}>Стартовый капитал</p>
                     <MoneyInput value={initialAmount} onChange={setInitialAmount} className={styles.inputContainer__input} />

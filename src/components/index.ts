@@ -3,3 +3,4 @@ export { Button } from './Button';
 export { Header } from './Header';
 export { MoneyInput } from './MoneyInput';
 export { InstallmentTable } from './InstallmentTable';
+export { LinkButton } from './LinkButton';

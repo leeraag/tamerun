@@ -1,0 +1,16 @@
+.linkBtn {
+    align-self: flex-start;
+    padding: 0;
+    
+    & span {
+        color: #fff;
+    }
+}
+
+.linkBtn:hover span {
+    color: #e7fff1ff;
+}
+
+.linkBtn:active span {
+    color: #005229;
+}
