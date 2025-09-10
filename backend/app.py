@@ -29,4 +29,4 @@ def calculation(first, second):
     return to_result_json('result', first + second, 200)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=80)
