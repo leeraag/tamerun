@@ -59,11 +59,11 @@ def generate_pdf(payment_schedule, property_price, installment_period, apartment
     available_width_for_images = width - 2 * inch
 
     # --- Определяем тексты ---
-    title_text = f"Расчет графика платежей за Апартаменты № {apartment_number} Tamerun Grand Mirmax по рассрочке на {installment_period} месяцев*"
+    title_text = f"Расчет графика платежей за Апартамент № {apartment_number} Tamerun Grand Mirmax по рассрочке на {installment_period} месяцев*"
     current_time_t =  datetime.now() + timedelta(hours=3)
     current_date = current_time_t.strftime("%d.%m.%Y %H:%M:%S")
     date_text = f"Дата расчета: {current_date}"
-    cost_text = f"Стоимость квартиры: {property_price:,.2f} руб."
+    cost_text = f"Стоимость апартамента: {property_price:,.2f}".replace(',', ' ') + " руб."
     footnote_text = "*Предложение действительно в течение 30 дней с даты расчета и не является публичной офертой."
 
     # --- Стили ---
@@ -262,7 +262,7 @@ def generate_pdf(payment_schedule, property_price, installment_period, apartment
         current_row_index += 1 # Переходим к следующей строке
 
     table_data.append([
-        "Итого выплачено:", "", f"{total_paid:,.2f} руб.", ""
+        "Итого выплачено:", "", f"{total_paid:,.2f}".replace(',', ' ') + " руб.", ""
     ])
     table_style_commands.append(('BACKGROUND', (0, current_row_index), (-1, current_row_index), HEAD_BG_COLOR))
     table_style_commands.append(('VALIGN', (0, current_row_index - 1), (-1, current_row_index - 1), 'MIDDLE'))
