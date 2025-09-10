@@ -31,7 +31,7 @@ else:
     font_regular = 'Stolzl-Regular'
     font_book = 'Stolzl-Book'
 
-def generate_pdf(payment_schedule, property_price, installment_period):
+def generate_pdf(payment_schedule, property_price, installment_period, apartment_number):
     """
     Создает PDF-документ с изображением. Тестовая реализация
 
@@ -41,6 +41,7 @@ def generate_pdf(payment_schedule, property_price, installment_period):
             'month', 'date', 'amount', 'note'
         property_price (float): Стоимость квартиры
         installment_period (int): Количество месяцев рассрочки
+        apartment_number (int): Номер апартаментов
 
     Returns:
         PDF-документ
@@ -58,7 +59,7 @@ def generate_pdf(payment_schedule, property_price, installment_period):
     available_width_for_images = width - 2 * inch
 
     # --- Определяем тексты ---
-    title_text = f"Расчет графика платежей за апартаменты Tamerun Grand Mirmax по рассрочке на {installment_period} месяцев*"
+    title_text = f"Расчет графика платежей за Апартаменты № {apartment_number} Tamerun Grand Mirmax по рассрочке на {installment_period} месяцев*"
     current_time_t =  datetime.now() + timedelta(hours=3)
     current_date = current_time_t.strftime("%d.%m.%Y %H:%M:%S")
     date_text = f"Дата расчета: {current_date}"
@@ -203,7 +204,7 @@ def generate_pdf(payment_schedule, property_price, installment_period):
     table_data = [["№", "Дата внесения платежа", "Сумма платежа", "Пояснение"]]
     total_paid = 0.0
     current_row_index = 1 # Индекс текущей строки в table_data (0 - заголовок)
-    ##d4dbe3
+
     table_style_commands = [
         ('BACKGROUND', (0, 0), (-1, 0), HEAD_BG_COLOR),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
@@ -243,7 +244,7 @@ def generate_pdf(payment_schedule, property_price, installment_period):
         table_data.append([
             f"{payment.get('month', 0)}",
             payment.get('date', ''),
-            f"{payment.get('amount', 0.0):,.2f} руб.",
+            f"{payment.get('amount', 0.0):,.2f}".replace(',', ' ') + " руб.",
             note_paragraph
         ])
         total_paid += payment.get('amount', 0.0)
@@ -264,6 +265,7 @@ def generate_pdf(payment_schedule, property_price, installment_period):
         "Итого выплачено:", "", f"{total_paid:,.2f} руб.", ""
     ])
     table_style_commands.append(('BACKGROUND', (0, current_row_index), (-1, current_row_index), HEAD_BG_COLOR))
+    table_style_commands.append(('VALIGN', (0, current_row_index - 1), (-1, current_row_index - 1), 'MIDDLE'))
 
     col_widths = [0.5 * inch, 2.0 * inch, 1.5 * inch, 2.5 * inch]
     table = LongTable(table_data, colWidths=col_widths)

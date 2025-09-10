@@ -127,6 +127,11 @@ def calculation(first, second):
                                        " YYYY-MM-DDTHH:MM:SS±HH:MM",
                         "example": "2025-11-25T00:00:00+03:00"
                     },
+                    "apartment_number": {
+                        "type": "integer",
+                        "description": "Номер апартаментов",
+                        "example": 2
+                    },
                 },
                 "required": [
                     "property_price",
@@ -199,6 +204,7 @@ def download_pdf():
         monthly_payment_percentage = float(
             data.get('monthly_payment_percentage'))
         intermediate_payments = data.get('intermediate_payments') # Мб None
+        apartment_number = data.get('apartment_number')
         initial_payment_date_str = data.get('initial_payment_date')
         initial_payment_date = datetime.now()
         try:
@@ -221,6 +227,8 @@ def download_pdf():
                 and installment_period > 0,
             isinstance(monthly_payment_percentage, (int, float))
                 and 0 <= monthly_payment_percentage <= 100,
+            isinstance(apartment_number, int)
+                and 0 <= apartment_number <= 999999,
         ]):
             return jsonify({
                 "error": "Некорректные входные данные. "
@@ -275,7 +283,8 @@ def download_pdf():
     # Выполняем генерацию PDF
     pdf_buffer = generate_pdf(payment_schedule[0],
                               property_price,
-                              installment_period)
+                              installment_period,
+                              apartment_number)
 
     # Создаем объект Response
     # content_type='application/pdf' указывает браузеру, что это PDF
