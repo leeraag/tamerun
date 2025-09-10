@@ -18,6 +18,7 @@
     flex-direction: column;
     align-items: center;
 }
+
 .inputContainer {
     display: flex;
     flex-direction: row;
@@ -28,7 +29,7 @@
 
     &__title {
         color: white;
-        font-size: 2vw;
+        font-size: 1.8vw;
         width: 60%;
         white-space: nowrap;
         margin: 10px 0;
@@ -36,18 +37,48 @@
 
     &__input {
         height: 5vh;
-        
+
+        // :global {
+        //     .ant-input-number {
+        //         width: 100%;
+        //     }
+        // }
     }
 }
 
-.inputContainer:nth-of-type(2) {
+.inputContainer:nth-of-type(3) {
     margin-bottom: 10px;
 }
 
 :global {
-    .ant-picker-now {
-        & a {
-            color: #005229;
+    .ant-picker-header button, .ant-picker-header-view {
+        line-height: 30px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .content {
+        width: 90%;
+
+        :global {
+            .ant-input-number-affix-wrapper, .ant-picker {
+                width: 100% !important;
+            }
+        }
+    }
+    .inputContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: start;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+        margin-bottom: 20px;
+
+        &__title {
+            margin: 0;
+            text-align: center;
         }
     }
 }

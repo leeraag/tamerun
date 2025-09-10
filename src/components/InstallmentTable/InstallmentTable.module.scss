@@ -11,5 +11,22 @@
 }
 
 .markedRow {
-    background-color: rgb(206, 254, 226);
+    background-color: #cefee2;
 }
+
+.installmentTable {
+    :global {
+        .ant-table-title {
+            padding: 6px 8px 4px 8px;
+        }
+
+        .ant-table-footer {
+            padding-bottom: 4px;
+        }
+
+        .ant-table-cell {
+            line-height: 1;
+        }
+    }
+}
+

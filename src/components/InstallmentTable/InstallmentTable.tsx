@@ -44,6 +44,7 @@ const InstallmentTable: FC<TInstallmentTableProps> = ({
                     </Button>
                 </>
             }
+            className={styles.installmentTable}
             rowClassName={(record) => record.onetime_payment === true ? styles.markedRow : ''}
         />
     );

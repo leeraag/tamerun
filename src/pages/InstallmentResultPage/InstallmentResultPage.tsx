@@ -31,6 +31,7 @@ const InstallmentResultPage: FC<TInstallmentResultPageProps> = ({}) => {
         navigate(RoutePath.installment);
     };
 
+    const apart_num = Number(localStorage.getItem('apartNum'));
     const property_price = Number(localStorage.getItem('propertyPrice'));
     const initial_payment_date = localStorage.getItem('initialPaymentDate');
 
@@ -53,12 +54,14 @@ const InstallmentResultPage: FC<TInstallmentResultPageProps> = ({}) => {
     };
 
     const fetchFile = async (
+        apart_num: number,
         property_price: number,
         initial_payment_date: string | null,
         installmentSettings: TInstallmentSettings
     ) => {
         try {
             await installmentApi.postDownloadPdfSchedule(
+                apart_num,
                 property_price,
                 initial_payment_date,
                 installmentSettings,
@@ -103,7 +106,9 @@ const InstallmentResultPage: FC<TInstallmentResultPageProps> = ({}) => {
                     columns={COLUMNS}
                     dataSource={paymentSchedule}
                     totalCost={totalCost}
-                    downloadFile={() => fetchFile(property_price, initial_payment_date, INSTALLMENT_SETTINGS_6)} 
+                    downloadFile={() => 
+                        fetchFile(apart_num, property_price, initial_payment_date, INSTALLMENT_SETTINGS_6)
+                    } 
                 />
         },
         {
@@ -114,7 +119,9 @@ const InstallmentResultPage: FC<TInstallmentResultPageProps> = ({}) => {
                     columns={COLUMNS}
                     dataSource={paymentSchedule}
                     totalCost={totalCost}
-                    downloadFile={() => fetchFile(property_price, initial_payment_date, INSTALLMENT_SETTINGS_12)} 
+                    downloadFile={() => 
+                        fetchFile(apart_num, property_price, initial_payment_date, INSTALLMENT_SETTINGS_12)
+                    } 
                 />
         },
         {
@@ -125,7 +132,9 @@ const InstallmentResultPage: FC<TInstallmentResultPageProps> = ({}) => {
                     columns={COLUMNS}
                     dataSource={paymentSchedule}
                     totalCost={totalCost}
-                    downloadFile={() => fetchFile(property_price, initial_payment_date, INSTALLMENT_SETTINGS_18)} 
+                    downloadFile={() => 
+                        fetchFile(apart_num, property_price, initial_payment_date, INSTALLMENT_SETTINGS_18)
+                    } 
                 />
         },
         {
@@ -136,7 +145,9 @@ const InstallmentResultPage: FC<TInstallmentResultPageProps> = ({}) => {
                     columns={COLUMNS}
                     dataSource={paymentSchedule}
                     totalCost={totalCost}
-                    downloadFile={() => fetchFile(property_price, initial_payment_date, INSTALLMENT_SETTINGS_24)} 
+                    downloadFile={() => 
+                        fetchFile(apart_num, property_price, initial_payment_date, INSTALLMENT_SETTINGS_24)
+                    } 
                 />
         },
         {
@@ -147,7 +158,9 @@ const InstallmentResultPage: FC<TInstallmentResultPageProps> = ({}) => {
                     columns={COLUMNS}
                     dataSource={paymentSchedule}
                     totalCost={totalCost}
-                    downloadFile={() => fetchFile(property_price, initial_payment_date, INSTALLMENT_SETTINGS_36)} 
+                    downloadFile={() => 
+                        fetchFile(apart_num, property_price, initial_payment_date, INSTALLMENT_SETTINGS_36)
+                    } 
                 />
         },
     ];

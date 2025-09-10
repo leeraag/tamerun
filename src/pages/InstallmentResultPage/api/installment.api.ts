@@ -22,6 +22,7 @@ export const postInstallmentCalculate = (
 };
 
 export const postDownloadPdfSchedule = (
+    apartment_number: number,
     property_price: number,
     initial_payment_date: string | null,
     installmentSettings: TInstallmentSettings,
@@ -33,6 +34,7 @@ export const postDownloadPdfSchedule = (
         url,
         type: 'blob',
         data: {
+            apartment_number: apartment_number,
             property_price: property_price,
             initial_payment_date: initial_payment_date,
             ...installmentSettings
