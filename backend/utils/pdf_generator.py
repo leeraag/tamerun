@@ -65,6 +65,8 @@ def generate_pdf(payment_schedule, property_price, installment_period, apartment
     date_text = f"Дата расчета: {current_date}"
     cost_text = f"Стоимость апартамента: {property_price:,.2f}".replace(',', ' ') + " руб."
     footnote_text = "*Предложение действительно в течение 30 дней с даты расчета и не является публичной офертой."
+    footer_contact_text_1 = "РАЗВИТИЕ: +7 (365) 256-29-20 | <link href=\"https://cid.ru\"><b>cid.ru</b></link> | Офис продаж: г. Саки"
+    footer_contact_text_2 = "MIRMAX: +7 (917) 610-87-16 Родина Елена"
 
     # --- Стили ---
     title_style = ParagraphStyle(
@@ -78,6 +80,10 @@ def generate_pdf(payment_schedule, property_price, installment_period, apartment
     footer_text_style = ParagraphStyle(
         name='FooterTextStyle', fontName=font_book, fontSize=8, leading=10,
         alignment=TA_LEFT,
+    )
+    footer_contact_text_style = ParagraphStyle(
+        name='FooterContactTextStyle', fontName=font_book, fontSize=10, leading=12,
+        alignment=TA_CENTER,
     )
     note_style = ParagraphStyle(
         name='NoteStyle',
@@ -123,6 +129,15 @@ def generate_pdf(payment_schedule, property_price, installment_period, apartment
         footer_text_w, footer_text_h = footer_paragraph.wrapOn(canvas,
                                                                width - 2 * inch,
                                                                height)
+
+        footer_contact_paragraph_1 = Paragraph(footer_contact_text_1, footer_contact_text_style)
+        footer_contact_text_1_w, footer_contact_text_1_h = footer_contact_paragraph_1.wrapOn(canvas,
+                                                               width - 2 * inch, height)
+
+        footer_contact_paragraph_2 = Paragraph(footer_contact_text_2, footer_contact_text_style)
+        footer_contact_text_2_w, footer_contact_text_2_h = footer_contact_paragraph_2.wrapOn(canvas,
+                                                               width - 2 * inch, height)
+
         # --- Подготовка ОДНОГО изображения ---
         single_image_element = None
         try:
@@ -130,7 +145,7 @@ def generate_pdf(payment_schedule, property_price, installment_period, apartment
             img_width_orig, img_height_orig = img_reader.getSize()
 
             # Рассчитываем новую ширину, чтобы она заняла всю доступную ширину
-            new_width = available_width_for_images
+            new_width = 0.8 * available_width_for_images
 
             # Рассчитываем новую высоту пропорционально, сохраняя исходное соотношение сторон
             # Используем новое соотношение сторон, чтобы новая высота была пропорциональна новой ширине
@@ -153,7 +168,7 @@ def generate_pdf(payment_schedule, property_price, installment_period, apartment
         if single_image_element:
             # Рисуем изображение
             # Y-позиция картинки: нижний край страницы + отступ + высота текста сноски + отступ
-            image_y_pos = 0.5 * inch + footer_text_h + 0.1 * inch
+            image_y_pos = 0.5 * inch + footer_text_h + footer_contact_text_1_h + footer_contact_text_2_h + 0.2 * inch
 
             # Центрируем изображение по горизонтали
             image_draw_x = inch + (
@@ -162,10 +177,14 @@ def generate_pdf(payment_schedule, property_price, installment_period, apartment
             single_image_element.drawOn(canvas, image_draw_x, image_y_pos)
 
             # Рисуем текст сноски под изображением
-            footer_paragraph.drawOn(canvas, inch, 0.5 * inch)
+            footer_contact_paragraph_1.drawOn(canvas, inch, 0.9 * inch)
+            footer_contact_paragraph_2.drawOn(canvas, inch, 0.7 * inch)
+            footer_paragraph.drawOn(canvas, inch, 0.45 * inch)
 
         else:  # Если изображение не загрузилось, рисуем только текст
-            footer_paragraph.drawOn(canvas, inch, 0.5 * inch)
+            footer_contact_paragraph_1.drawOn(canvas, inch, 0.9 * inch)
+            footer_contact_paragraph_2.drawOn(canvas, inch, 0.7 * inch)
+            footer_paragraph.drawOn(canvas, inch, 0.45 * inch)
 
         canvas.restoreState()
 
