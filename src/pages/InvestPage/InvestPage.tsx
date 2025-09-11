@@ -1,7 +1,7 @@
 import {useState, type FC, type ReactNode} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RoutePath } from '../../routes';
-import { Button, LinkButton, MoneyInput } from '../../components';
+import { Button, Header, LinkButton, MoneyInput } from '../../components';
 import { getTermWord } from '../../utils';
 import { Select } from 'antd';
 import { LeftOutlined } from '@ant-design/icons'
@@ -38,27 +38,30 @@ const InvestPage: FC<TInvestPageProps> = ({}) => {
     }
 
     return (
-        <section className={styles.container}>
-            <div className={styles.content}>
-                <LinkButton children={"На главную"} onClick={navigateToHome} icon={<LeftOutlined />} />
-                <div className={styles.inputContainer}>
-                    <p className={styles.inputContainer__title}>Стартовый капитал</p>
-                    <MoneyInput value={initialAmount} onChange={setInitialAmount} className={styles.inputContainer__input} />
+        <>
+            <Header title={"Инвестиционный калькулятор"} />
+            <section className={styles.container}>
+                <div className={styles.content}>
+                    <LinkButton children={"На главную"} onClick={navigateToHome} icon={<LeftOutlined />} />
+                    <div className={styles.inputContainer}>
+                        <p className={styles.inputContainer__title}>Стартовый капитал</p>
+                        <MoneyInput value={initialAmount} onChange={setInitialAmount} className={styles.inputContainer__input} />
+                    </div>
+                    <div className={styles.inputContainer}>
+                        <p className={styles.inputContainer__title}>Срок инвестирования</p>
+                        <Select
+                            placeholder="Выберите срок"
+                            style={{ width: '40%' }}
+                            listHeight={200}
+                            options={termOptions}
+                            onChange={handleTermChange}
+                            className={styles.inputContainer__input}
+                        />
+                    </div>
+                    <Button onClick={submitForm}>Рассчитать</Button>
                 </div>
-                <div className={styles.inputContainer}>
-                    <p className={styles.inputContainer__title}>Срок инвестирования</p>
-                    <Select
-                        placeholder="Выберите срок"
-                        style={{ width: '40%' }}
-                        listHeight={200}
-                        options={termOptions}
-                        onChange={handleTermChange}
-                        className={styles.inputContainer__input}
-                    />
-                </div>
-                <Button onClick={submitForm}>Рассчитать</Button>
-            </div>
-        </section>
+            </section>
+        </>
     );
 };
 

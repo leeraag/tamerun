@@ -3,7 +3,7 @@ import type { AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { RoutePath } from '../../routes';
 import { Tabs } from 'antd';
-import { Button, InstallmentTable } from '../../components';
+import { Button, Header, InstallmentTable } from '../../components';
 import { downloadFile } from '../../utils/downloadFile';
 import { installmentApi } from './api/installment.api';
 import { 
@@ -165,12 +165,15 @@ const InstallmentResultPage: FC<TInstallmentResultPageProps> = ({}) => {
         },
     ];
     return (
-        <section className={styles.container}>
-            <div className={styles.tab}>
-                <Tabs type="card" items={tabsContent} className={styles.tabs} onTabClick={handleTabClick}/>
-                <Button onClick={finishCalculate}>Понятно</Button>
-            </div>
-        </section>
+        <>
+            <Header title={"Калькулятор рассрочек"} />
+            <section className={styles.container}>
+                <div className={styles.tab}>
+                    <Tabs type="card" items={tabsContent} className={styles.tabs} onTabClick={handleTabClick}/>
+                    <Button onClick={finishCalculate}>Понятно</Button>
+                </div>
+            </section>
+        </>
     );
 };
 

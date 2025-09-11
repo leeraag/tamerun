@@ -1,5 +1,5 @@
 import {useEffect, useState, type FC, type ReactNode} from 'react';
-import { Button } from '../../components';
+import { Button, Header } from '../../components';
 
 import { useNavigate } from 'react-router-dom';
 import { RoutePath } from '../../routes';
@@ -94,12 +94,15 @@ const InvestResultPage: FC<TInvestResultPageProps> = ({}) => {
         },
     ];
     return (
-        <section className={styles.container}>
-            <div className={styles.tab}>
-                <Tabs type="card" items={tabsContent} className={styles.tabs}/>
-                <Button onClick={finishCalculate}>Понятно</Button>
-            </div>
-        </section>
+        <>
+            <Header title={"Инвестиционный калькулятор"} />
+            <section className={styles.container}>
+                <div className={styles.tab}>
+                    <Tabs type="card" items={tabsContent} className={styles.tabs}/>
+                    <Button onClick={finishCalculate}>Понятно</Button>
+                </div>
+            </section>
+        </>
     );
 };
 

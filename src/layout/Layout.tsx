@@ -1,5 +1,5 @@
 import type {FC, ReactNode} from 'react';
-import { Footer, Header } from '../components';
+import { Footer } from '../components';
 import styles from './Layout.module.scss';
 
 type TLayoutProps = {
@@ -9,7 +9,6 @@ type TLayoutProps = {
 const Layout: FC<TLayoutProps> = ({children}) => {
     return (
         <main className={styles.layout}>
-            <Header />
             <div className={styles.layout__content}>{children}</div>
             <Footer />
         </main>

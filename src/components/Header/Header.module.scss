@@ -4,11 +4,22 @@
     justify-content: right;
     font-family: 'Stolzl Regular', sans-serif;
     color: white;
-    font-size: 2.8vw;
     padding: 1rem 3rem;
 
     &__title {
         text-align: right;
         margin: 0;
     }
+}
+
+.header_home {
+    font-size: 2.5vw;
+}
+
+.header_page {
+    flex-direction: column;
+    align-self: flex-end;
+    align-items: center;
+    font-size: 2.8vw;
+    width: 70%;
 }

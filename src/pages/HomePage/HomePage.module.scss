@@ -1,7 +1,9 @@
 .container {
+    flex: 1;
     display: flex;
     width: 50%;
     align-self: self-end;
+    justify-content: center;
     flex-direction: column;
     align-items: center;
     font-family: 'Stolzl Book', sans-serif;

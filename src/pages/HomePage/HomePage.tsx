@@ -1,5 +1,5 @@
 import { type FC, type ReactNode } from 'react';
-import { Button } from '../../components';
+import { Button, Header } from '../../components';
 import { useNavigate } from 'react-router-dom';
 import { RoutePath } from '../../routes';
 import styles from './HomePage.module.scss';
@@ -15,12 +15,22 @@ const HomePage: FC<THomePageProps> = ({}) => {
     const navigateToInstallment = () => navigate(RoutePath.installment);
 
     return (
-        <section className={styles.container}>
-            <div className={styles.buttons}>
-                <Button onClick={navigateToInvest} fullWidth bold>Инвестиционный калькулятор</Button>
-                <Button onClick={navigateToInstallment} fullWidth bold>Калькулятор рассрочек</Button>
-            </div>
-        </section>
+        <>
+            <Header 
+                title={
+                    <span>Рассчитайте специальные условия приобретения 
+                        <br/> апартаментов Tamerun Grand Mirmax
+                    </span>
+                }
+                pageType="home"
+            />
+            <section className={styles.container}>
+                <div className={styles.buttons}>
+                    <Button onClick={navigateToInvest} fullWidth bold>Инвестиционный калькулятор</Button>
+                    <Button onClick={navigateToInstallment} fullWidth bold>Калькулятор рассрочек</Button>
+                </div>
+            </section>
+        </>
     );
 };
 

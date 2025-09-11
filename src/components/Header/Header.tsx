@@ -1,19 +1,23 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
+import clsx from 'clsx';
 import styles from './Header.module.scss';
 
 type THeaderProps = {
+    title?: string | ReactNode;
+    pageType?: "home" | "page";
     className?: string;
 };
 
-const Header: FC<THeaderProps> = ({}) => {
+const Header: FC<THeaderProps> = ({title, pageType}) => {
     return (
-        <header className={styles.header}>
+        <header className={
+            clsx(
+                styles.header,
+                pageType === "home" ? styles.header_home : styles.header_page,
+            )}
+        >
             <p className={styles.header__title}>
-                Рассчитайте вашу прогнозную доходность
-                <br/>
-                от инвестиций в апартаменты
-                <br/>
-                Tamerun Grand Mirmax
+                {title}
             </p>
         </header>
     );
