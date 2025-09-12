@@ -12,8 +12,4 @@ export default defineConfig({
 		hmr: false,
 		allowedHosts: ['tamerun-invest.ru'],
 	},
-	optimizeDeps: {
-		noDiscovery: true,
-		include: []
-	}
 })
