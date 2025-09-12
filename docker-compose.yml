@@ -54,7 +54,7 @@ services:
             - ./certbot/conf:/etc/letsencrypt    # Монтируем те же сертификаты, что и Nginx
             - ./certbot/www:/var/www/certbot     # Монтируем ту же директорию для challenge
         networks:
-            - app-network
+            - tamerun_network
         command: >
             sh -c "certbot certonly \
                 --webroot -w /var/www/certbot \
