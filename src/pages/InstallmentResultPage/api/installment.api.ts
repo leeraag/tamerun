@@ -8,7 +8,7 @@ export const postInstallmentCalculate = (
     initial_payment_date: string | null,
     installmentSettings: TInstallmentSettings,
 ): AxiosPromise => {
-    const url = BASE_URL + 'api/calculate_payment_schedule';
+    const url = BASE_URL + 'api/calculate_payment_schedule/';
 
     return makeApiRequest({
         method: Methods.POST,
@@ -27,7 +27,7 @@ export const postDownloadPdfSchedule = (
     initial_payment_date: string | null,
     installmentSettings: TInstallmentSettings,
 ): AxiosPromise => {
-    const url = BASE_URL + 'api/download_pdf_payment_schedule';
+    const url = BASE_URL + 'api/download_pdf_payment_schedule/';
 
     return makeApiRequest({
         method: Methods.POST,
