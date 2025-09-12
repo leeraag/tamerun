@@ -17,6 +17,8 @@ const InstallmentPage: FC<TInstallmentPageProps> = ({}) => {
 
     const navigateToHome = () => navigate(RoutePath.home);
 
+    const isSmallScreen = window.innerHeight < 768;
+
     const [apartNum, setApartNum] = useState<number | null>(null);
     const [propertyPrice, setPropertyPrice] = useState<number | null>(null);
     const [initialPaymentDate, setInitialPaymentDate] = useState(null);
@@ -70,6 +72,12 @@ const InstallmentPage: FC<TInstallmentPageProps> = ({}) => {
                             value={initialPaymentDate}
                             onChange={setInitialPaymentDate}
                             showNow={false}
+                            placement={isSmallScreen ? "topLeft" : "bottomLeft"}
+                            classNames={{
+                                popup: {
+                                    root: isSmallScreen ? styles.smallPicker : ''
+                                }
+                            }}
                         />
                     </div>
                     <Button onClick={submitForm}>Рассчитать</Button>
