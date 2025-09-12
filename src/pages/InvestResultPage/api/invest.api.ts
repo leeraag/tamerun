@@ -7,7 +7,7 @@ export const postInvestCalculate = (
     starting_capital: number,
     years: number,
 ): AxiosPromise => {
-    const url = BASE_URL + 'api/calculate_investment_forecast/';
+    const url = BASE_URL + 'api/calculate_investment_forecast';
 
     return makeApiRequest({
         method: Methods.POST,

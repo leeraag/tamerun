@@ -1,7 +1,7 @@
 import type {AxiosPromise, AxiosRequestConfig} from 'axios';
 import axios from 'axios';
 
-const BASE_URL = 'http://tamerun-invest.ru:5000/';
+const BASE_URL = 'https://tamerun-invest.ru/';
 
 enum Methods {
     GET = 'GET',

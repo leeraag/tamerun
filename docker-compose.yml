@@ -9,7 +9,7 @@ services:
             context: .
             dockerfile: Dockerfile
         ports:
-            - '9000:443'
+            - '0.0.0.0:5173:5173'
         networks:
             - tamerunnet
         depends_on:
@@ -22,9 +22,24 @@ services:
             context: ./backend
             dockerfile: Dockerfile
         ports:
-            - '5000:5000'
+            - '0.0.0.0:5000:5000'
         networks:
             - tamerunnet
+
+    nginx-router:
+        container_name: tamerun_nginx
+        stdin_open: true
+        build:
+            context: ./nginx-router
+            dockerfile: Dockerfile
+        ports:
+            - '0.0.0.0:443:443'
+            - '0.0.0.0:80:80'
+        networks:
+            - tamerunnet
+        depends_on:
+            - backend
+            - frontend
 
 networks:
     tamerunnet:

@@ -8,8 +8,8 @@ export default defineConfig({
 	base: './',
 	server: {
 		host: true,
-		port: 443,
+		port: 5173,
 		hmr: false,
-		allowedHosts: ['tamerun-invest.ru'],
+		allowedHosts: ['0.0.0.0', 'localhost', 'tamerun-invest.ru'],
 	},
 })
