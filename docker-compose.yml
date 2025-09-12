@@ -56,14 +56,14 @@ services:
         networks:
             - tamerunnet
         command: >
-            sh -c "certbot certonly \
-                --webroot -w /var/www/certbot \
-                -d tamerun-invest.ru \
-                -d www.tamerun-invest.ru \
-                --email sap@grad1.ru \
-                --agree-tos \
-                --no-eff-email \
-                --staging || true" # Используйте --staging для тестирования, уберите для продакшена
+            ["certbot", "certonly",
+            "--webroot", "-w", "/var/www/certbot",
+            "-d", "tamerun-invest.ru",
+            "-d", "www.tamerun-invest.ru",
+            "--email", "sap@grad1.ru",
+            "--agree-tos",
+            "--no-eff-email",
+            "--staging"]
 
 
 networks:
