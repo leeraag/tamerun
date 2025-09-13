@@ -11,3 +11,4 @@ if [ -n "$NGINX_PID" ]; then
 else
     echo "Nginx container not found or not running."
 fi
+chmod +x scripts/renew_nginx.sh`
