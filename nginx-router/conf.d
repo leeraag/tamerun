@@ -1,16 +1,4 @@
-# nginx/conf.d/nginx.conf
-events {
- worker_connections 1024;
-}
-
-http {
- include /etc/nginx/mime.types;
- default_type application/octet-stream;
-
- sendfile on;
- tcp_nopush on;
- keepalive_timeout 65;
- real_ip_header X-Forwarded-For;
+# nginx/conf.d
 
 # --- Блок для HTTP-01 Challenge от Certbot ---
 server {
@@ -34,7 +22,8 @@ server {
 
 # --- Блок для HTTPS трафика (после получения сертификата) ---
 server {
-    listen 443 ssl http2;
+    listen 443 ssl;
+	http2 on;
     server_name tamerun-invest.ru www.tamerun-invest.ru; # Замените на ваши доменные имена
 
     # SSL сертификаты, которые Certbot запишет в /etc/letsencrypt/
@@ -73,5 +62,3 @@ server {
     }
     # --- КОНЕЦ БЛОКА SERVER ---
 }
-}
-# --- КОНЕЦ БЛОКА HTTPS ---

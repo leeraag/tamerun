@@ -3,7 +3,7 @@
 FROM nginx:latest
 
 # Скопируйте ваш файл конфигурации nginx.conf в контейнер
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY conf.d /etc/nginx/conf.d
 
 # Откройте порт, который будет слушать ваш NGINX внутри контейнера
 EXPOSE 80
