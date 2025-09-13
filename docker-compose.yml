@@ -1,19 +1,4 @@
 services:
-    frontend:
-        container_name: tamerun
-        stdin_open: true
-        tty: true
-        build:
-            context: .
-            dockerfile: Dockerfile
-        ports:
-            - '0.0.0.0:5173:5173'
-        networks:
-            - tamerunnet
-        depends_on:
-            - backend
-        restart: always
-
     backend:
         container_name: tamerun_server
         stdin_open: true
@@ -30,8 +15,8 @@ services:
         container_name: tamerun_nginx
         stdin_open: true
         build:
-            context: ./nginx-router
-            dockerfile: Dockerfile
+            context: .
+            dockerfile: ./nginx-router/Dockerfile
         ports:
             - '0.0.0.0:443:443'
             - '0.0.0.0:80:80'
@@ -39,7 +24,6 @@ services:
             - tamerunnet
         depends_on:
             - backend
-            - frontend
         volumes:
             - ./certbot/conf:/etc/letsencrypt    # Смонтированные SSL сертификаты
             - ./certbot/www:/var/www/certbot     # Директория для HTTP-01 challenge

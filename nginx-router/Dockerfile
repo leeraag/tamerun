@@ -1,9 +1,20 @@
 # nginx-router/Dockerfile
 
+# Stage 1: Build
+FROM node:22-alpine3.22 as build
+WORKDIR /app
+COPY frontend/package.json frontend/yarn.lock ./
+ENV PATH=/app/node_modules/.bin:$PATH
+COPY frontend/ ./
+RUN yarn install --frozen-lockfile
+RUN yarn build
+
+# Stage 2: Serve with nginx
 FROM nginx:latest
 
+COPY --from=build /app/dist /usr/share/nginx/html
 # Скопируйте ваш файл конфигурации nginx.conf в контейнер
-COPY tamerun.conf /etc/nginx/conf.d/tamerun.conf
+COPY nginx-router/tamerun.conf /etc/nginx/conf.d/tamerun.conf
 
 # Откройте порт, который будет слушать ваш NGINX внутри контейнера
 EXPOSE 80
