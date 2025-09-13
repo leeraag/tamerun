@@ -145,7 +145,7 @@ def generate_pdf(payment_schedule, property_price, installment_period, apartment
             img_width_orig, img_height_orig = img_reader.getSize()
 
             # Рассчитываем новую ширину, чтобы она заняла всю доступную ширину
-            new_width = 0.8 * available_width_for_images
+            new_width = 0.75 * available_width_for_images
 
             # Рассчитываем новую высоту пропорционально, сохраняя исходное соотношение сторон
             # Используем новое соотношение сторон, чтобы новая высота была пропорциональна новой ширине
@@ -168,7 +168,7 @@ def generate_pdf(payment_schedule, property_price, installment_period, apartment
         if single_image_element:
             # Рисуем изображение
             # Y-позиция картинки: нижний край страницы + отступ + высота текста сноски + отступ
-            image_y_pos = 0.5 * inch + footer_text_h + footer_contact_text_1_h + footer_contact_text_2_h + 0.2 * inch
+            image_y_pos = 0.35 * inch + footer_text_h + footer_contact_text_1_h + footer_contact_text_2_h + 0.2 * inch
 
             # Центрируем изображение по горизонтали
             image_draw_x = inch + (
@@ -177,14 +177,14 @@ def generate_pdf(payment_schedule, property_price, installment_period, apartment
             single_image_element.drawOn(canvas, image_draw_x, image_y_pos)
 
             # Рисуем текст сноски под изображением
-            footer_contact_paragraph_1.drawOn(canvas, inch, 0.9 * inch)
-            footer_contact_paragraph_2.drawOn(canvas, inch, 0.7 * inch)
-            footer_paragraph.drawOn(canvas, inch, 0.45 * inch)
+            footer_contact_paragraph_1.drawOn(canvas, inch, 0.75 * inch)
+            footer_contact_paragraph_2.drawOn(canvas, inch, 0.55 * inch)
+            footer_paragraph.drawOn(canvas, inch, 0.3 * inch)
 
         else:  # Если изображение не загрузилось, рисуем только текст
-            footer_contact_paragraph_1.drawOn(canvas, inch, 0.9 * inch)
-            footer_contact_paragraph_2.drawOn(canvas, inch, 0.7 * inch)
-            footer_paragraph.drawOn(canvas, inch, 0.45 * inch)
+            footer_contact_paragraph_1.drawOn(canvas, inch, 0.75 * inch)
+            footer_contact_paragraph_2.drawOn(canvas, inch, 0.55 * inch)
+            footer_paragraph.drawOn(canvas, inch, 0.3 * inch)
 
         canvas.restoreState()
 
