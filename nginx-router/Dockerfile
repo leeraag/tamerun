@@ -3,7 +3,7 @@
 FROM nginx:latest
 
 # Скопируйте ваш файл конфигурации nginx.conf в контейнер
-COPY conf.d /etc/nginx/conf.d
+COPY tamerun.conf /etc/nginx/conf.d/tamerun.conf
 
 # Откройте порт, который будет слушать ваш NGINX внутри контейнера
 EXPOSE 80

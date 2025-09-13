@@ -53,15 +53,7 @@ services:
             - ./certbot/www:/var/www/certbot     # Монтируем ту же директорию для challenge
         networks:
             - tamerunnet
-        command: >
-            ["certbot", "certonly",
-            "--webroot", "-w", "/var/www/certbot",
-            "-d", "tamerun-invest.ru",
-            "-d", "www.tamerun-invest.ru",
-            "--email", "sap@grad1.ru",
-            "--agree-tos",
-            "--no-eff-email",
-            "--staging"]
+        command: bash -c "echo \"Waiting for Nginx to start...\"; sleep 30; echo \"Starting Certbot...\"; certbot certonly --webroot -w /var/www/certbot -d tamerun-invest.ru -d www.tamerun-invest.ru --email sap@grad1.ru --agree-tos --no-eff-email --staging"
 
 
 networks:
