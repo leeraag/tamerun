@@ -1,7 +1,7 @@
 # nginx-router/Dockerfile
 
 # Stage 1: Build
-FROM node:22-alpine3.22 as build
+FROM node:22-alpine3.22 AS build
 WORKDIR /app
 COPY frontend/package.json frontend/yarn.lock ./
 ENV PATH=/app/node_modules/.bin:$PATH
